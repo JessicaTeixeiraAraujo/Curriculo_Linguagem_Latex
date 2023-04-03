@@ -1,0 +1,594 @@
+
+\documentclass[10pt,A4,brazil]{article}	
+
+\usepackage[utf8]{inputenc}		
+\usepackage[USenglish]{isodate}
+\usepackage{fancyhdr}
+\usepackage[numbers]{natbib}
+
+\usepackage{xstring, xifthen}
+\usepackage{enumitem}
+\usepackage[brazil]{babel}
+\usepackage{blindtext}
+\usepackage{pdfpages}
+\usepackage{changepage}
+
+\usepackage[default]{raleway}
+
+\renewcommand*\familydefault{\sfdefault} 	
+\usepackage[T1]{fontenc}
+
+\usepackage{moresize}
+
+\usepackage{fontawesome}
+
+\newcommand{\vcenteredinclude}[1]{\begingroup
+\setbox0=\hbox{\includegraphics{#1}}%
+\parbox{\wd0}{\box0}\endgroup}
+\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+
+\newcommand*{\vcenteredhbox}[1]{\begingroup
+\setbox0=\hbox{#1}\parbox{\wd0}{\box0}\endgroup}
+
+\newcommand{\icon}[3] { 							
+	\makebox(#2, #2){\textcolor{maincol}{\csname fa#1\endcsname}}
+}	
+
+
+\newcommand{\icontext}[4]{ 						
+	\vcenteredhbox{\icon{#1}{#2}{#3}}  \hspace{2pt}  \parbox{0.9\mpwidth}{\textcolor{#4}{#3}}
+}
+
+\newcommand{\iconhref}[5]{ 						
+    \vcenteredhbox{\icon{#1}{#2}{#5}}  \hspace{2pt} \href{#4}{\textcolor{#5}{#3}}
+}
+
+\newcommand{\iconemail}[5]{ 						
+    \vcenteredhbox{\icon{#1}{#2}{#5}}  \hspace{2pt} \href{mailto:#4}{\textcolor{#5}{#3}}
+}
+
+\usepackage{paracol}
+\usepackage{tikzpagenodes}
+\usetikzlibrary{calc}
+\usepackage{lmodern}
+\usepackage{multicol}
+\usepackage{lipsum}
+\usepackage{atbegshi}
+
+\usepackage[a4paper]{geometry}
+
+
+\geometry{top=1cm, bottom=1cm, left=1cm, right=1cm}
+
+\usepackage{fancyhdr}
+\pagestyle{empty}
+
+
+\setlength{\parindent}{0mm}
+
+
+\usepackage{array}
+
+\newcolumntype{x}[1]{%
+>{\raggedleft\hspace{0pt}}p{#1}}%
+
+
+\usepackage{graphicx}
+
+	
+\usepackage{tikz}			
+\usepackage{ragged2e}	
+\usetikzlibrary{shapes, backgrounds,mindmap, trees}
+
+\usepackage{transparent}
+\usepackage{color}
+
+\definecolor{maincol}{RGB}{ 64,64,64}
+
+
+\definecolor{darkcol}{RGB}{ 70, 70, 70 }
+
+
+\definecolor{lightcol}{RGB}{245,245,245}
+
+\definecolor{accentcol}{RGB}{59,77,97}
+
+
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\mpwidth}{\linewidth-\fboxsep-\fboxsep}
+	
+
+
+\newcommand{\cvlist}[1] {
+	\begin{itemize}{#1}\end{itemize}
+}
+
+\newcommand{\cvtext}[1] {
+	\begin{tabular*}{1\mpwidth}{p{0.98\mpwidth}}
+		\parbox{1\mpwidth}{#1}
+	\end{tabular*}
+}
+\newcommand{\cvtextsmall}[1] {
+	\begin{tabular*}{0.8\mpwidth}{p{0.8\mpwidth}}
+		\parbox{0.8\mpwidth}{#1}
+	\end{tabular*}
+}
+%----------------------------------------------------------------------------------------
+%	CV SECTION
+%----------------------------------------------------------------------------------------
+
+% Renders a a CV section headline with a nice underline in main color.
+% param 1: section title
+\newcommand{\cvsection}[1] {
+	\vspace{14pt}
+	\cvtext{
+		\textbf{\LARGE{\textcolor{darkcol}{#1}}}\\[-4pt]
+		\textcolor{accentcol}{ \rule{0.2\textwidth}{1.5pt} } \\
+	}
+}
+
+\newcommand{\cvsectionsmall}[1] {
+	\vspace{14pt}
+	\cvtext{
+		\textbf{\Large{\textcolor{darkcol}{#1}}}\\[-4pt]
+		\textcolor{accentcol}{ \rule{0.2\textwidth}{1.5pt} } \\
+	}
+}
+
+\newcommand{\cvheadline}[1] {
+	\vspace{16pt}
+	\cvtext{
+		\textbf{\Huge{\textcolor{accentcol}{#1}}}\\[-4pt]
+		 
+	}
+}
+
+\newcommand{\cvsubheadline}[1] {
+	\vspace{16pt}
+	\cvtext{
+		\textbf{\huge{\textcolor{darkcol}{#1}}}\\[-4pt]
+		 
+	}
+}
+
+\newcommand{\cvskill}[3] {
+	\begin{tabular*}{1\mpwidth}{p{0.72\mpwidth}  r}
+ 		\textcolor{black}{\textbf{#1}} & \textcolor{maincol}{#2}\\
+	\end{tabular*}%
+	
+	\hspace{4pt}
+	\begin{tikzpicture}[scale=1,rounded corners=4pt,very thin]
+		\fill [lightcol] (0,0) rectangle (1\mpwidth, 0.15);
+		\fill [accentcol] (0,0) rectangle (#3\mpwidth, 0.15);
+  	\end{tikzpicture}%
+}
+
+
+
+\newcommand{\cvevent}[7] {
+	
+	% we wrap this part in a parbox, so title and description are not separated on a pagebreak
+	% if you need more control on page breaks, remove the parbox
+	\parbox{\mpwidth}{
+		\begin{tabular*}{1\mpwidth}{p{0.66\mpwidth}  r}
+	 		\textcolor{black}{\textbf{#2}} & \colorbox{accentcol}{\makebox[0.32\mpwidth]{\textcolor{white}{\textbf{#1}}}} \\
+			\textcolor{maincol}{#3} & \\
+		\end{tabular*}\\[8pt]
+	
+		\ifthenelse{\isempty{#4}}{}{
+			\cvtext{#4}\\
+		}
+	}
+	\vspace{14pt}
+}
+
+
+%----------------------------------------------------------------------------------------
+%	 CV META EVENT
+%----------------------------------------------------------------------------------------
+
+% Renders a CV event on the sidebar
+% param 1: title
+% param 2: subtitle (optional)
+% param 3: customer, employer, etc,. (optional)
+% param 4: info text (optional)
+\newcommand{\cvmetaevent}[4] {
+	\textcolor{maincol} { \cvtext{\textbf{\begin{flushleft}#1\end{flushleft}}}}
+
+	\ifthenelse{\isempty{#2}}{}{
+	\textcolor{black} {\cvtext{\textbf{#2}} }
+	}
+
+	\ifthenelse{\isempty{#3}}{}{
+		\cvtext{{ \textcolor{maincol} {#3} }}\\
+	}
+
+	\cvtext{#4}\\[14pt]
+}
+
+%---------------------------------------------------------------------------------------
+%	QR CODE
+%----------------------------------------------------------------------------------------
+
+% Renders a qrcode image (centered, relative to the parentwidth)
+% param 1: percent width, from 0 to 1
+\newcommand{\cvqrcode}[1] {
+	\begin{center}
+		\includegraphics[width={#1}\mpwidth]{qrcode}
+	\end{center}
+}
+
+
+% HEADER AND FOOOTER 
+%====================================
+\newcommand\Header[1]{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[accentcol]
+  (current page.north west) -- (current page.north east) --
+  ([yshift=50pt]current page.north east|-current page text area.north east) --
+  ([yshift=50pt,xshift=-3cm]current page.north|-current page text area.north) --
+  ([yshift=10pt,xshift=-5cm]current page.north|-current page text area.north) --
+  ([yshift=10pt]current page.north west|-current page text area.north west) -- cycle;
+\node[font=\sffamily\bfseries\color{white},anchor=west,
+  xshift=0.7cm,yshift=-0.32cm] at (current page.north west)
+  {\fontsize{12}{12}\selectfont {#1}};
+\end{tikzpicture}%
+}
+
+\newcommand\Footer[1]{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[lightcol]
+  (current page.south east) -- (current page.south west) --
+  ([yshift=-80pt]current page.south east|-current page text area.south east) --
+  ([yshift=-80pt,xshift=-6cm]current page.south|-current page text area.south) --
+  ([xshift=-2.5cm,yshift=-10pt]current page.south|-current page text area.south) --	
+  ([yshift=-10pt]current page.south east|-current page text area.south east) -- cycle;
+\node[yshift=0.32cm,xshift=9cm] at (current page.south) {\fontsize{10}{10}\selectfont \textbf{\thepage}};
+\end{tikzpicture}%
+}
+
+
+%=====================================
+%============================================================================%
+%
+%
+%
+%	DOCUMENT CONTENT
+%
+%
+%
+%============================================================================%
+\begin{document}
+
+\columnratio{0.31}
+\setlength{\columnsep}{2.2em}
+\setlength{\columnseprule}{4pt}
+\colseprulecolor{white}
+
+
+% LEBENSLAUF HIERE
+\AtBeginShipoutFirst{\Header{CV}\Footer{1}}
+\AtBeginShipout{\AtBeginShipoutAddToBox{\Header{CV}\Footer{2}}}
+
+\newpage
+
+\colseprulecolor{lightcol}
+\columnratio{0.31}
+\setlength{\columnsep}{2.2em}
+\setlength{\columnseprule}{4pt}
+\begin{paracol}{2}
+
+
+\begin{leftcolumn}
+%---------------------------------------------------------------------------------------
+%	META IMAGE
+%----------------------------------------------------------------------------------------
+\includegraphics[width=\linewidth]{resources/image.jpg}	%trimming relative to image size
+
+%---------------------------------------------------------------------------------------
+%	informações
+%----------------------------------------------------------------------------------------
+	\fcolorbox{white}{white}{\begin{minipage}[c][1cm][c]{1\mpwidth}
+		\Large{\textbf{\textcolor{maincol}{Jessica Teixeira Araujo}}} \\[1pt]
+		\normalsize{ \textcolor{maincol} {} }
+\end{minipage}}
+
+\cvsection{Contato}
+
+\icontext{MapMarker}{10}{Belém do Pará, Pa, Brasil}{black}\\[6pt]
+\icontext{Phone}{10}{+55 91 983300075}{black}\\[6pt]
+\iconemail{Envelope}{10}{jessicateixeiraaraujo@gmail.com}{mailto:jessicateixeiraaraujo@gmail.com}{black}\\[6pt]
+\iconhref{Github}{10}{github.com/JessicaTeixeiraAraujo}{https://github.com/JessicaTeixeiraAraujo}{black}\\[6pt]
+\iconhref{\faLinkedin}{10}{linkedin.com/JessicaTeixeiraAraujo}{https://www.linkedin.com/in/jessica-teixeira-araujo-666066156/}{black}\\
+
+
+\cvsection{Hard Skills}
+
+\cvskill{Projetos \newline Controle e Gestão} {8+ anos} {1} \\[-2pt]
+
+\cvskill{Qualidade \newline Controle e Gestão} {8+ anos} {1} \\[-2pt]
+
+\cvskill{Dados \newline Análise e Ciência} {2+ anos} {0.75} \\[-2pt]
+
+\cvskill{Qualidade de Software \newline Análise e Engenharia \newline Testes Manuais \newline Testes Automatizados} {1+ anos} {0.75} \\[-2pt]
+
+\cvskill{Culturas \newline DevOps \newline Framework Srum \newline Metodologias Ágeis } {1+ anos} {0.5} \\[-2pt] \\
+
+\cvskill{Desenvolvimento \newline Full Stack Python} {1+ anos} {0.5} \\[-2pt] \\
+
+\cvskill{Inteligência Artificial \newline Internet das Coisas \newline Machine Learning} {1+ anos} {0.5} \\[-2pt]
+
+%---------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+\cvsection{Soft Skills}
+
+
+\icontext{CaretRight}{10}{Adaptabilidade}{black}\\[6pt]
+\icontext{CaretRight}{10}{Aprendizagem}{black}\\[6pt]
+\icontext{CaretRight}{10}{Atenção aos Detalhes}{black}\\[6pt]
+\icontext{CaretRight}{10}{Autonomia}{black}\\[6pt]
+\icontext{CaretRight}{10}{Comunicação Assertiva}{black}\\[6pt]
+\icontext{CaretRight}{10}{Criatividade}{black}\\[6pt]
+\icontext{CaretRight}{10}{Ética e Moral}{black}\\[6pt]
+\icontext{CaretRight}{10}{Execução de Tarefas}{black}\\[6pt]
+\icontext{CaretRight}{10}{Foco em Resultados}{black}\\[6pt]
+\icontext{CaretRight}{10}{Gestão de Equipe}{black}\\[6pt]
+\icontext{CaretRight}{10}{Liderança}{black}\\[6pt]
+\icontext{CaretRight}{10}{Negociação}{black}\\[6pt]
+\icontext{CaretRight}{10}{Organização}{black}\\[6pt]
+\icontext{CaretRight}{10}{Planejamento}{black}\\[6pt]
+\icontext{CaretRight}{10}{Pontualidade}{black}\\[6pt]
+\icontext{CaretRight}{10}{Proatividade}{black}\\[6pt]
+\icontext{CaretRight}{10}{Relacionamento Interpessoal}{black}\\[6pt]
+\icontext{CaretRight}{10}{Resiliência}{black}\\[6pt]
+\icontext{CaretRight}{10}{Satisfação do Cliente}{black}\\[6pt]
+\icontext{CaretRight}{10}{Trabalho em Equipe}{black}\\[6pt]
+
+\cvsection{Idiomas}
+
+\cvskill{Alemão} {A1} {0.25} \\[-2pt]
+\cvskill{Espanhol} {B1} {0.5} \\[-2pt]
+\cvskill{Inglês} {B1} {0.5} \\[-2pt]
+\cvskill{Português} {C2} {1} \\[-2pt]
+
+\cvsection{Ferramentas}
+
+\cvskill{Anaconda} {2+ anos} {0.75} \\[-2pt]
+\cvskill{Azure} {1+ anos} {0.5} \\[-2pt]
+\cvskill{AWS} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Atlassian: Jira e Trello} {1+ anos} {0.75} \\[-2pt]
+\cvskill{Clarity} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Cloud} {2+ anos} {0.75} \\[-2pt]
+\cvskill{Colab} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Cucumber} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Cypress} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Dimensions} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Docker e Kubernetes} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Git e GitHub} {1+ anos} {0.75} \\[-2pt]
+\cvskill{Gitlab} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Google Workspace} {3+ anos} {1} \\[-2pt]
+\cvskill{Itsm} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Jupyter} {1+ anos} {0.75} \\[-2pt]
+\cvskill{Limesurvey} {2+ anos} {0.75} \\[-2pt]
+\cvskill{Microsoft Office 365} {8+ anos} {1} \\[-2pt]
+\cvskill{Miro} {1+ anos} {1} \\[-2pt]
+\cvskill{Navegação} {10+ anos} {1} \\[-2pt]
+\cvskill{Overleaf} {3+ anos} {0.75} \\[-2pt]
+\cvskill{Postman} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Power BI e Qlick Sense } {2+ anos} {0.75} \\[-2pt]
+\cvskill{Rally} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Restassured} {1+ anos} {0.5} \\[-2pt]
+\cvskill{RStudio} {3+ anos} {0.75} \\[-2pt]
+\cvskill{Salesforce} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Selenium} {1+ anos} {0.5} \\[-2pt]
+\cvskill{StarUML} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Terraform} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Tinkercad} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Unity Hub} {1+ anos} {0.5} \\[-2pt]
+\cvskill{Visual Studio Code} {3+ anos} {0.75} \\[-2pt]
+\cvskill{Windows} {10+ anos} {1} \\[-2pt]
+
+\cvsection{Linguagens}
+
+\cvskill{Arduino} {1+ anos} {0.5} \\[-2pt]
+\cvskill{C e C ++} {8+ anos} {0.5} \\[-2pt]
+\cvskill{Java e Javascript} {1+ anos} {0.35} \\[-2pt]
+\cvskill{Latex} {3+ anos} {1} \\[-2pt]
+\cvskill{Python} {3+ anos} {0.75} \\[-2pt]
+\cvskill{R} {3+ anos} {0.75} \\[-2pt]
+\cvskill{SQL e NOSQL} {3+ anos} {0.5} \\[-2pt]
+%\cvqrcode{0.3}
+
+\end{leftcolumn}
+\begin{rightcolumn}
+%---------------------------------------------------------------------------------------
+%	TITLE  HEADER
+%----------------------------------------------------------------------------------------
+
+
+%---------------------------------------------------------------------------------------
+%	PROFILE
+%----------------------------------------------------------------------------------------
+\cvsection{Resumo}
+\vspace{4pt}
+
+{
+Profissional interdisciplinar em transição de carreira  apaixonada por ciência de dados e engenharia de software. Desejo atuar em áreas que me permitam aplicar minha interdiciplinaridade, colaborando com a empresa na extração de insights valiosos a partir de dados e no uso de software para tornar os processos automatizados mais eficientes e produtivos. Meus conhecimentos, experiências e habilidades estão relacionados a:
+
+Dados e Tecnologia: análise e ciência de dados; cibersegurança; devops; desenvolvimento full stack em python; engenharia, qualidade e teste de software; inteligência artificial; internet das coisas; machine learning e metodologias ágeis, incluindo o framework scrum.
+
+Gestão: CRM, ESG, ISO, LGPD, KPIs, métricas, auditoria, compliance, controle de qualidade, engenharia de produção, gestão de projetos, governança corporativa, logística e supply chain.
+
+
+}
+
+%---------------------------------------------------------------------------------------
+%	WORK EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\vspace{5pt}
+\cvsection{Experiência}
+\vspace{4pt}
+
+\cvevent
+{09/2022 - 02/2023}
+{OI S.A - Estagiária em Estatística e Análise QA}
+{Setor: Infra e Operações > Controle e Governança > Monitoração de Serviços > Release}
+{Atividades: acompanhamento de incidentes, post-mortem, sistemas clarity, dimensions, itsm, portal, rally e sharepoint; análise, validação e aprovação de escopo; elaboração de escala; gerenciamento de atividades com método kanban e scrum utilizando trello; gestão e implementação de projetos; melhoria contínua de processos; monitoramento de serviços; participação em daily’s; plantonista em sala de estabilização; e entre outros.
+}
+\vfill\null
+
+\cvevent
+{07/2022 - 08/2022}
+{SEBRAE PA - Estagiária em Estatística e Ciência de Dados}
+{Setor: Planejamento Estrátegico > Unidade de Gestão Estratégica e Mercado}
+{Atividades: criação de banco de dados, atualização de planilhas, levantamento de dados, elaboração de dashboard e entre outros.}
+\vfill\null
+
+\cvevent
+{07/2021 - 07/2022}
+{TCM PA - Estagiária em Estatística e Ciência de Dados}
+{Setor: Diretoria de Planejamento, Assessoramento, Monitoramento, Fiscalização e Controle Externo > Coordenação Saúde e Educação}
+{Atividades: elaboração de taxa, previsão, estimativa, tendência; análise de séries temporais dos indicadores sociais de saúde e educação pública; elebaração e aplicação de questionários em limesurvey e google forms; geração de gráficos, planilhas, relatórios, tabulação de dados; apoio técnico à auditorias e monitoramento; e entre outros.
+}
+\vfill\null
+
+
+	
+\cvevent
+    {12/2014 - 04/2017}
+	{AMAZONFRUTAS POLPA DE FRUTAS DA AMAZÔNIA - Engenheira de Produção Trainner}
+	{Setor: Planejamento da Produção > Controle da Qualidade}
+	{Atividades: certificação e audição em HACAPP, IBD, HALAL e KOSHER; controles e check-in list 's de transporte, expedição, monitoramento, pragas, estoque, limpeza; acompanhamento do processo de produção;elaboração de laudos, pop’s, instruções de trabalho, fichas técnicas, etc.; atuação no laboratório físico-químico; treinamento e supervisão de funcionários; aplicação de 5S, teorias motivacionais e seis sigma; implementação de recall; estudo da vida de prateleira; supervisão e monitoramento na expedição do carregamento de carreta e contêineres; acompanhar, elaborar e executar registro de estabelecimento e produto no sistema SIPEAGRO e ao MAPA.
+}
+	\vfill\null
+	\vfill\null
+ 
+ 
+\vspace{5pt}
+\cvsection{Formação Acadêmica}
+\vspace{4pt}
+
+\cvevent
+{03/2020 - Cursando}
+{Bacharel Estatística}
+{Universidade Federal do Pará} 
+{}
+\vfill\null
+
+\cvevent
+{02/2019 - 12/2020}
+{Tecnologo Logística}
+{Universidade Paulista}
+{}
+\vfill\null
+
+\cvevent
+{03/2013 - 12/2017}
+{Bacharel Engenharia de Produção}
+{Universidade do Estado do Pará}
+{}
+\vfill\null
+
+
+\vspace{5pt}
+\cvsection{Formação Profissional}
+\vspace{4pt}
+
+\cvevent
+{09/2022 - Cursando}
+{Profissional Desenvolverdor Full Stack Python}
+{Escola Britânica de Artes Criativas e Tecnologia}
+{}
+\vfill\null
+
+\cvevent
+{09/2022 - Cursando}
+{Profissional Engenheiro da Qualidade de Software}
+{Escola Britânica de Artes Criativas e Tecnologia}
+{}
+\vfill\null
+
+
+\cvsection{Bootcamps e Imersões}
+\begin{itemize}
+\item Formação Cybersecurity Specialist - 22 Horas [DIO.me]
+\item Formação Power BI Analyst - 60 Horas [DIO.me]
+\item GFT Quality Assurance Para Mulheres - 103 Horas [DIO.me]
+\item IoT Specialist - 60 Horas [DIO.me]
+\item Machine Learning Specialist- 92 Horas[DIO.me]
+\item Quality Assurance Experience - 58 Horas [DIO.me]
+\item SQL Database Specialist - 72 Horas [DIO.me]
+\item Scrum Master Certification - 22 Horas [DIO.me]
+\end{itemize}
+
+
+\cvsection{Cursos Relevantes}
+\begin{itemize}
+
+
+\item Amazon Web Services (AWS): Essencial - 12 Horas [UDEMY]
+\item Automação de testes de API com Postman + Projetos - 9 Horas [UDEMY]
+\item Boas práticas em automação de testes com Cypress - 3 Horas [UDEMY]
+\item Certificação AZ-900 Microsoft Azure Fundamentals - 4 Horas [UDEMY]
+\item CRM: Gestão do Relacionamento com o Cliente - 9 Horas [UDEMY]
+\item Docker Completo do ZERO ao Avançado 2023 - 5 Horas [UDEMY]
+\item Formação Cientista de Dados 2023 - 46 Horas [UDEMY]
+\item Fundamentos da Inteligência Artificial - 12 Horas [DSA]
+\item Introdução à Ciência de Dados 3.0 - 12 Horas [DSA]
+\item Gestão de Infraestrutura de TI - 20 Horas [FIAP]
+\item Git e GitHub do básico ao avançado com gist e GitHub Pages - 8 Horas [UDEMY]
+\item Jira Software (2022): Projetos Completos com Scrum - 3 Horas [UDEMY]
+\item LaTeX do zero ao avançado - 5 Horas [UDEMY]
+\item Lei Geral de Proteção de Dados Pessoais - 7 Horas  [UDEMY]
+\item Linguagem R - 7 Horas [UDEMY]
+\item Orquestração de Containers com Kubernetes - 10 Horas [UDEMY]
+\item Testes End-To-End com Cypress - 3 Horas [UDEMY]
+\item The A to Z of ESG - Environmental and Social Governance - 3 Horas [UDEMY]
+\item The Complete Guide to Corporate Governance - 3 Horas [UDEMY]
+\item Torne-se Administrador em Salesforce - 4 Horas [UDEMY]
+\end{itemize}
+
+\cvsection{Eventos}
+
+\begin{itemize}
+
+
+    \item CODA BR [Edição 2022]
+    \item Community Week [Edição 2022]
+    \item DevOps e SRE III [Edição 2022]
+    \item Dev Summit V [Edição 2022]
+    \item Dev Week Projetos Ágeis com Scrum e Kanban [Edição 2022]
+    \item Dia do Estatístico [Edição 2022]
+    \item CONE [Edição 2021]
+    \item II SINTER  AÇAÍ [Edição 2016]
+    \item ENEGEP [Edição 2016]
+    \end{itemize}
+
+\cvsection{Workshops}
+
+\begin{itemize}
+
+\item 3 dias de criatividade e co-criação de produtos inovadores [EBAC]
+\item 3 dias de prática de regressão linear para ciência de dados [EBAC]
+\item CI-CD configurações e macetes [EBAC]
+\item Como criar um análise descritiva usando Power BI [EBAC]
+\item Criando seu primeiro protótipo de jogo no Unreal Engine [EBAC]
+\item Dois dias de machine learning na prática [EBAC]
+\item Ética em dados e algoritmos [EBAC]
+\item GitHub - primeiros passos [EBAC]
+\item Google ads do zero [EBAC]
+\item Google Analytics: atualizações e principais mudançasGoogle Analytics: atualizações e principais mudanças [EBAC]
+\item Java com spring boot: por onde começar [EBAC]
+\item Python na prática [EBAC]
+\item Python para machine learning [EBAC]
+\item Seus primeiros passos em análise de dados [EBAC]
+\item Teste de usabilidade [EBAC]
+\end{itemize}
+
+\end{rightcolumn}
+\end{paracol}
+
+\end{document}
